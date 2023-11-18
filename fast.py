@@ -9,14 +9,15 @@ import numpy as np
 #         coords[i] = (shape.part(i).x, shape.part(i).y)
 #     return coords
 
-def get_mouth_landmarks(shape):
-    # Define the indices for the mouth landmarks
-    mouth_indices = list(range(48, 68))
+def get_mouth_landmarks(shape):    
+    left_mouth_indices = [48, 49, 50, 58, 59, 60, 61, 67]
+    right_mouth_indices = [52, 63, 65, 56, 53, 64, 55, 54]
+    
+    right_mouth_landmarks = [shape.part(index) for index in right_mouth_indices]
+    left_mouth_landmarks = [shape.part(index) for index in left_mouth_indices]
 
-    # Extract mouth landmarks from the shape object
-    mouth_landmarks = [shape.part(index) for index in mouth_indices]
-
-    return mouth_landmarks
+    # return mouth_landmarks
+    return right_mouth_landmarks, left_mouth_landmarks
 
 def is_droopy_face(mouth_landmarks):
     # Split the mouth landmarks into left and right halves
@@ -81,23 +82,21 @@ for face in faces:
     shape = predictor(gray, face)
 
     # Get mouth landmarks
-    mouth_landmarks = get_mouth_landmarks(shape)
+    # mouth_landmarks = get_mouth_landmarks(shape)
+    right_mouth_landmarks, left_mouth_landmarks = get_mouth_landmarks(shape)
+    
 
     # Check for droopy face
     # droopy_face = is_droopy_face(mouth_landmarks)
     # print(droopy_face)
-    
-    left_mouth_indices = [48, 49, 50, 58, 59, 60, 61, 67]
-    right_mouth_indices = [52, 63, 65, 56, 53, 64, 55, 54]
-    
-    for i in right_mouth_indices:
-        point = shape.part(i)
+
+    for point in right_mouth_landmarks:
         x, y = point.x, point.y
         cv2.circle(image, (x, y), 2, (0, 255, 0), -1)
         
-    # for point in mouth_landmarks:
-    #     x, y = point.x, point.y
-    #     cv2.circle(image, (x, y), 2, (0, 255, 0), -1)
+    for point in left_mouth_landmarks:
+        x, y = point.x, point.y
+        cv2.circle(image, (x, y), 2, (0, 255, 0), -1)
 
     # Display the result
     # cv2.putText(image, f"Droopy Face: {droopy_face}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
