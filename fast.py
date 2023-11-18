@@ -48,7 +48,7 @@ def is_droopy_face(right_mouth, left_mouth):
     right_avg_y = sum(point.y for point in right_mouth) / len(right_mouth)
 
     # Set a threshold for droopiness (adjust as needed)
-    droopiness_threshold = 5  # You may need to adjust this value based on your observations
+    droopiness_threshold = 1  # You may need to adjust this value based on your observations
     print(abs(left_avg_y - right_avg_y))
 
     # Compare the average y-coordinates to determine droopiness
@@ -84,7 +84,7 @@ def main():
         
         # Check for droopy face
         droopy_face = is_droopy_face(right_mouth_landmarks, left_mouth_landmarks)
-        print(droopy_face)
+        print("DROOPY:", droopy_face)
 
         for point in right_mouth_landmarks:
             x, y = point.x, point.y
