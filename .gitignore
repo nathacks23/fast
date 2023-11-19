@@ -160,3 +160,5 @@ cython_debug/
 #.idea/
 
 data
+mini_data
+mini_data2
